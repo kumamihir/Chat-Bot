@@ -19,22 +19,42 @@ async function sendMessage() {
   addMessage(text, "user");
   input.value = "";
 
-  addMessage("Thinking…", "ai");
+  const thinkingMsg = document.createElement("div");
+  thinkingMsg.className = "message ai";
+  thinkingMsg.innerHTML = "<span>Thinking…</span>";
+  chatBox.appendChild(thinkingMsg);
+  chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ message: text })
     });
 
-    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(`HTTP error ${res.status}`);
+    }
 
-    chatBox.lastChild.remove();
-    addMessage(data.reply || "No response", "ai");
+    const data = await res.json();
+    console.log("AI RESPONSE:", data);
+
+    thinkingMsg.remove();
+
+    const reply =
+      data.reply ||
+      data.output ||
+      data.text ||
+      data.answer ||
+      "No response from AI";
+
+    addMessage(reply, "ai");
 
   } catch (err) {
-    chatBox.lastChild.remove();
+    console.error(err);
+    thinkingMsg.remove();
     addMessage("Error connecting to AI", "ai");
   }
 }
@@ -43,6 +63,8 @@ sendBtn.onclick = sendMessage;
 input.addEventListener("keydown", e => {
   if (e.key === "Enter") sendMessage();
 });
+
+/* -------- Sparkle background (unchanged) -------- */
 
 const canvas = document.getElementById("sparkles");
 const ctx = canvas.getContext("2d");
