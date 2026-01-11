@@ -436,8 +436,7 @@ echo ".env" >> .gitignore
 
 ### Step 4: Configure AI Agents
 
-```javascript
-// Example AI Agent Configuration
+```json
 {
   "generalAgent": {
     "endpoint": "YOUR_AI_SERVICE_ENDPOINT",
@@ -449,10 +448,9 @@ echo ".env" >> .gitignore
     "apiKey": "YOUR_API_KEY_HERE"
   }
 }
-
-// Note: Never commit actual API keys or endpoints to version control
-// Always use environment variables or secure credential management
 ```
+
+**Note**: Never commit actual API keys or endpoints to version control. Always use environment variables or secure credential management.
 
 ---
 
@@ -509,32 +507,37 @@ async function sendToChatBot(message) {
 
 ### n8n Workflow Nodes Configuration
 
+**Webhook Node**:
 ```yaml
-workflow:
-  name: "AI Chat-Bot"
-  nodes:
-    - type: webhook
-      name: "Incoming Message"
-      path: "/chatbot"
-      method: "POST"
-    
-    - type: function
-      name: "Process Input"
-      code: |
-        // Extract and clean message
-        const message = $input.item.json.message;
-        return { message: message.trim() };
-    
-    - type: if
-      name: "Check YouTube Link"
-      condition: "{{ $json.message.includes('youtube.com') }}"
-    
-    - type: httpRequest
-      name: "AI Agent Call"
-      url: "{{ $env.AI_AGENT_ENDPOINT }}"
-      method: "POST"
-      headers:
-        Authorization: "Bearer {{ $env.OPENAI_API_KEY }}"
+name: "Incoming Message"
+path: "/chatbot"
+method: "POST"
+```
+
+**Function Node (Process Input)**:
+```yaml
+name: "Process Input"
+```
+JavaScript code for the function:
+```javascript
+// Extract and clean message
+const message = $input.item.json.message;
+return { message: message.trim() };
+```
+
+**IF Node (Check YouTube Link)**:
+```yaml
+name: "Check YouTube Link"
+condition: "{{ $json.message.includes('youtube.com') }}"
+```
+
+**HTTP Request Node (AI Agent Call)**:
+```yaml
+name: "AI Agent Call"
+url: "{{ $env.AI_AGENT_ENDPOINT }}"
+method: "POST"
+headers:
+  Authorization: "Bearer {{ $env.OPENAI_API_KEY }}"
 ```
 
 ### Environment Variables
@@ -620,11 +623,11 @@ N8N_LOG_LEVEL=debug n8n start
 
 ```bash
 # Test webhook endpoint
-curl -X POST http://localhost:5678/webhook-test/chatbot \
+curl -X POST http://localhost:5678/webhook/chatbot \
   -H "Content-Type: application/json" \
   -d '{"message": "test"}'
 
-# Test AI agent directly
+# Test AI agent directly (example with OpenAI)
 curl https://api.openai.com/v1/chat/completions \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
