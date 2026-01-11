@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: radial-gradient(1200px at top, #0f172a, #020617);
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+
+#sparkles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 60px auto;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  animation: fadeIn 0.8s ease;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+
+.chat-box {
+  height: 360px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.message {
+  margin-bottom: 14px;
+  animation: slideUp 0.35s ease;
+}
+
+.user {
+  text-align: right;
+}
+
+.user span {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.ai span {
+  background: #020617;
+  border: 1px solid #1e293b;
+}
+
+.message span {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 14px;
+  max-width: 80%;
+  line-height: 1.45;
+}
+
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #020617;
+  color: white;
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+input:focus {
+  box-shadow: 0 0 0 2px #6366f1;
+}
+
+button {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(99,102,241,0.4);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
