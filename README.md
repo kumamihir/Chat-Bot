@@ -404,10 +404,15 @@ docker run -it --rm \
 git clone https://github.com/kumamihir/Chat-Bot.git
 cd Chat-Bot
 
-# Configure environment variables
-export N8N_BASIC_AUTH_USER=your_username
-export N8N_BASIC_AUTH_PASSWORD=your_password
-export OPENAI_API_KEY=your_openai_key
+# Create .env file for environment variables (recommended)
+cat > .env << EOF
+N8N_BASIC_AUTH_USER=your_username
+N8N_BASIC_AUTH_PASSWORD=your_password
+OPENAI_API_KEY=your_openai_key
+EOF
+
+# Make sure to add .env to .gitignore
+echo ".env" >> .gitignore
 ```
 
 ### Step 3: Configure n8n Workflow
@@ -435,15 +440,18 @@ export OPENAI_API_KEY=your_openai_key
 // Example AI Agent Configuration
 {
   "generalAgent": {
-    "endpoint": "https://api.openai.com/v1/chat/completions",
-    "model": "gpt-3.5-turbo",
+    "endpoint": "YOUR_AI_SERVICE_ENDPOINT",
+    "model": "your-preferred-model",
     "temperature": 0.7
   },
   "youtubeAgent": {
-    "endpoint": "https://api.youtube.com/v3/videos",
-    "apiKey": "YOUR_YOUTUBE_API_KEY"
+    "endpoint": "YOUR_VIDEO_SERVICE_ENDPOINT",
+    "apiKey": "YOUR_API_KEY_HERE"
   }
 }
+
+// Note: Never commit actual API keys or endpoints to version control
+// Always use environment variables or secure credential management
 ```
 
 ---
@@ -474,9 +482,9 @@ Bot: Machine learning is a subset of artificial intelligence that
 
 **YouTube Link Processing:**
 ```
-User: Check out this video: https://youtube.com/watch?v=dQw4w9WgXcQ
-Bot: Great video! This is "Rick Astley - Never Gonna Give You Up"
-     It's a music video with 1B+ views. Would you like a summary?
+User: Check out this video: https://youtube.com/watch?v=example123
+Bot: Great video! I can help you with that. The video is about [topic].
+     Here are the key points: [summary of content]
 ```
 
 ### Integration with External Apps
@@ -537,9 +545,9 @@ N8N_PORT=5678
 N8N_PROTOCOL=http
 N8N_HOST=localhost
 
-# AI Service Keys
-OPENAI_API_KEY=sk-...
-ANTHROPIC_API_KEY=sk-ant-...
+# AI Service Keys (use your actual keys from service providers)
+OPENAI_API_KEY=your_openai_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 # Bot Configuration
 BOT_NAME=ChatBot
@@ -549,6 +557,9 @@ MAX_CONTEXT_LENGTH=10
 # Webhook Settings
 WEBHOOK_PATH=/webhook/chatbot
 WEBHOOK_METHOD=POST
+
+# SECURITY NOTE: Never commit actual API keys to version control
+# Always use environment files (.env) that are in .gitignore
 ```
 
 ---
