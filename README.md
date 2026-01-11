@@ -406,9 +406,9 @@ cd Chat-Bot
 
 # Create .env file for environment variables (recommended)
 cat > .env << EOF
-N8N_BASIC_AUTH_USER=your_username
-N8N_BASIC_AUTH_PASSWORD=your_password
-OPENAI_API_KEY=your_openai_key
+N8N_BASIC_AUTH_USER=your_n8n_username_here
+N8N_BASIC_AUTH_PASSWORD=your_secure_password_here
+OPENAI_API_KEY=your_openai_api_key_here
 EOF
 
 # Make sure to add .env to .gitignore
@@ -439,18 +439,18 @@ echo ".env" >> .gitignore
 ```json
 {
   "generalAgent": {
-    "endpoint": "YOUR_AI_SERVICE_ENDPOINT",
-    "model": "your-preferred-model",
+    "endpoint": "https://api.example.com/v1/chat/completions",
+    "model": "your-ai-model-name",
     "temperature": 0.7
   },
   "youtubeAgent": {
-    "endpoint": "YOUR_VIDEO_SERVICE_ENDPOINT",
-    "apiKey": "YOUR_API_KEY_HERE"
+    "endpoint": "https://api.example.com/v3/videos",
+    "apiKey": "your_video_api_key_here"
   }
 }
 ```
 
-**Note**: Never commit actual API keys or endpoints to version control. Always use environment variables or secure credential management.
+**Note**: Replace the example endpoints and API keys with your actual service credentials. Never commit actual API keys or endpoints to version control. Always use environment variables or secure credential management.
 
 ---
 
